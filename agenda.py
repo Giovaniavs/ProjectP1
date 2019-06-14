@@ -27,28 +27,50 @@ def printCores(texto, cor) :
   print(cor + texto + RESET)
   
 
-# Adiciona um compromisso aa agenda. Um compromisso tem no minimo
-# uma descrição. Adicionalmente, pode ter, em caráter opcional, uma
-# data (formato DDMMAAAA), um horário (formato HHMM), uma prioridade de A a Z, 
-# um contexto onde a atividade será realizada (precedido pelo caractere
-# '@') e um projeto do qual faz parte (precedido pelo caractere '+'). Esses
-# itens opcionais são os elementos da tupla "extras", o segundo parâmetro da
-# função.
-#
-# extras ~ (data, hora, prioridade, contexto, projeto)
-#
-# Qualquer elemento da tupla que contenha um string vazio ('') não
-# deve ser levado em consideração. 
-def adicionar(descricao, extras):
-
-  # não é possível adicionar uma atividade que não possui descrição. 
+def adicionar(descricao, extras): #completo
+  lista = []
+  listaResposta = []
+  for elemento in extras:
+    lista.append(elemento)
   if descricao  == '' :
     return False
+  else:
+      listaResposta.append(descricao)
+      if dataValida(lista[0]) == True:
+          listaResposta.append(lista[0])
+          lista.pop(0)
+      else:
+          lista.pop(0)
+      if horaValida(lista[0]) == True:
+          listaResposta.append(lista[0])
+          lista.pop(0)
+      else:
+          lista.pop(0)
+      if prioridadeValida(lista[0]) == True:
+          listaResposta.append(lista[0])
+          lista.pop(0)
+      else:
+          lista.pop(0)
+      if contextoValido(lista[0]) == True:
+          listaResposta.append(lista[0])
+          lista.pop(0)
+      else:
+          lista.pop(0)
+      if projetoValido(lista[0]) == True:
+          listaResposta.append(lista[0])
+          lista.pop(0)
+      else:
+          lista.pop(0)
   
+
+  return listaResposta
+          
+          
+        
 
   ################ COMPLETAR
 
-
+'''
   # Escreve no TODO_FILE. 
   try: 
     fp = open(TODO_FILE, 'a')
@@ -60,24 +82,21 @@ def adicionar(descricao, extras):
     return False
 
   return True
-
+'''
 def horaValida(horaMin): #completo
-    flag = True
-    lista = []
-    if len(horaMin) != 4 or not soDigitos(horaMin):
+    if type(horaMin) != str:
+      return False
+    elif len(horaMin) != 4 or not soDigitos(horaMin):
       return False
     else:
-        for n in horaMin:
-            lista.append(n)
-        if int(lista[0]) > 2:
+        if int(horaMin[0]) > 2:
             return False
-        elif int(lista[1]) > 3:
+        elif int(horaMin[0]) == 2: 
+            if int(horaMin[1]) > 3:
+                return False
+        elif int(horaMin[2]) > 5:
             return False
-        elif int(lista[2]) > 5:
-            return False
-        elif int(lista[3]) > 9:
-            return False
-        return True
+    return True
 
 def soDigitos(numero) : #completo
   if type(numero) != str :
@@ -142,25 +161,8 @@ def prioridadeValida(prioridade): #completo
 
         
 
-
-
-
-
-# Dadas as linhas de texto obtidas a partir do arquivo texto todo.txt, devolve
-# uma lista de tuplas contendo os pedaços de cada linha, conforme o seguinte
-# formato:
-#
-# (descrição, prioridade, (data, hora, contexto, projeto))
-#
-# É importante lembrar que linhas do arquivo todo.txt devem estar organizadas de acordo com o
-# seguinte formato:
-#
-# DDMMAAAA HHMM (P) DESC @CONTEXT +PROJ
-#
-# Todos os itens menos DESC são opcionais. Se qualquer um deles estiver fora do formato, por exemplo,
-# data que não tem todos os componentes ou prioridade com mais de um caractere (além dos parênteses),
-# tudo que vier depois será considerado parte da descrição.  
-def organizar(linhas):
+def organizar(linhas): #completo
+  cont = 0
   itens = []
 
   for l in linhas:
@@ -171,38 +173,36 @@ def organizar(linhas):
     contexto = ''
     projeto = ''
   
-    l = l.strip() # remove espaços em branco e quebras de linha do começo e do fim
-    tokens = l.split() # quebra o string em palavras
-    
+    l = l.strip()
+    tokens = l.split()
     print(tokens)
     
-    if dataValida(tokens[0]) == True:
-      data = "1"
-      
-    if horaValida(tokens[1]) == True:
-      hora = "2"
-      
-    if prioridadeValida(tokens[2]) == True:
-      pri = "3"
-      
-    if contextoValido(tokens[4]) ==  True:
-      contexto = "4"
-      
-    if projetoValido(tokens[5]) == True:
-      projeto = "5"   
-    
-    # Processa os tokens um a um, verificando se são as partes da atividade.
-    # Por exemplo, se o primeiro token é uma data válida, deve ser guardado
-    # na variável data e posteriormente removido a lista de tokens. Feito isso,
-    # é só repetir o processo verificando se o primeiro token é uma hora. Depois,
-    # faz-se o mesmo para prioridade. Neste ponto, verifica-se os últimos tokens
-    # para saber se são contexto e/ou projeto. Quando isso terminar, o que sobrar
-    # corresponde à descrição. É só transformar a lista de tokens em um string e
-    # construir a tupla com as informações disponíveis. 
+  for i in range(len(tokens)):
+    for n in tokens:
+      print(n)
 
-    ################ COMPLETAR
+      if dataValida(n) == True:
+        data = tokens.pop(0)
 
-    itens.append((desc, (data, hora, pri, contexto, projeto)))
+      if horaValida(n) == True:
+        hora = tokens.pop(0)
+
+      if prioridadeValida(n) == True:
+        pri = tokens.pop(0)
+      
+      
+      if contextoValido(n) ==  True:
+        contexto = tokens.pop(0)
+
+        
+      if projetoValido(n) == True:
+        projeto = tokens.pop(0)
+      
+      if (dataValida(n) == False) and (horaValida(n) == False) and (prioridadeValida(n) == False) and (contextoValido(n) == False) and (projetoValido(n) == False):
+        desc += tokens.pop(0) + " "
+      
+       
+  itens.append((desc, (data, hora, pri, contexto, projeto)))
 
   return itens
 
@@ -215,7 +215,12 @@ def organizar(linhas):
 # determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
 # é uma das tarefas básicas do projeto, porém. 
 def listar():
-
+  arquivo = open("todo.txt","r")
+  listaWtf = arquivo.readlines()
+  print(listaWtf)
+  
+  
+  
   ################ COMPLETAR
   return 
 
@@ -267,8 +272,8 @@ def processarComandos(comandos) :
     itemParaAdicionar = organizar([' '.join(comandos)])[0]
     # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
     adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
-  elif comandos[1] == LISTAR:
-    return    
+  elif comandos[1] == "l":
+    return listar()
     ################ COMPLETAR
 
   elif comandos[1] == REMOVER:
