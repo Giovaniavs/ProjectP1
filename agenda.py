@@ -107,11 +107,15 @@ def soDigitos(numero) : #completo
   return True
 
 def dataValida(data): #completo (4 6 9 11) < meses de 30 dias
-    if len(data) != 8:
+    if type(data) != str:
+      return False
+    elif len(data) != 8:
         return False
+    elif "9" < data[2] > "0" and "9" < data[3] > "0":
+      return False
     else:
-        if int(data[0]) < 1:
-               return False
+        if int(data[0]) < 0:
+            return False
         elif int(data[0]) > 3:
             return False
         elif int(data[0]) == 3 and int(data[1]) > 1:
@@ -123,7 +127,7 @@ def dataValida(data): #completo (4 6 9 11) < meses de 30 dias
         elif int(data[2]) == 0 and int(data[3]) < 1:
             return False
         elif data[2] + data[3] == "04" or data[2] + data[3] == "06" or data[2] + data[3] == "09" or data[2] + data[3] == "11":
-            if data[1] == "1":
+            if data[0] + data[1] == "31":
                 return False
         elif data[2] + data[3] == "02":
             if int(data[0]) > 2:
@@ -175,34 +179,31 @@ def organizar(linhas): #completo
   
     l = l.strip()
     tokens = l.split()
-    print(tokens)
     
   for i in range(len(tokens)):
-    for n in tokens:
-      print(n)
-
-      if dataValida(n) == True:
-        data = tokens.pop(0)
-
-      if horaValida(n) == True:
-        hora = tokens.pop(0)
-
-      if prioridadeValida(n) == True:
-        pri = tokens.pop(0)
       
-      
-      if contextoValido(n) ==  True:
-        contexto = tokens.pop(0)
-
+    if dataValida(tokens[0]) == True:
+      data = tokens.pop(0)
+  
+    elif horaValida(tokens[0]) == True:
+      hora = tokens.pop(0)
         
-      if projetoValido(n) == True:
-        projeto = tokens.pop(0)
+    elif prioridadeValida(tokens[0]) == True:
+      pri = tokens.pop(0)
       
-      if (dataValida(n) == False) and (horaValida(n) == False) and (prioridadeValida(n) == False) and (contextoValido(n) == False) and (projetoValido(n) == False):
-        desc += tokens.pop(0) + " "
+    elif contextoValido(tokens[0]) ==  True:
+      contexto = tokens.pop(0)
+
+    elif projetoValido(tokens[0]) == True:
+      projeto += tokens.pop(0)
+      
+    elif (dataValida(tokens[0]) == False) and (horaValida(tokens[0]) == False) and (prioridadeValida(tokens[0]) == False) and (contextoValido(tokens[0]) == False) and (projetoValido(tokens[0]) == False):
+      desc += tokens.pop(0) + " "
       
        
   itens.append((desc, (data, hora, pri, contexto, projeto)))
+  if desc == "":
+    return False
 
   return itens
 
@@ -215,14 +216,12 @@ def organizar(linhas): #completo
 # determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
 # é uma das tarefas básicas do projeto, porém. 
 def listar():
+  lista = []
   arquivo = open("todo.txt","r")
-  listaWtf = arquivo.readlines()
-  print(listaWtf)
-  
-  
-  
+  for n in arquivo:
+    lista.append(organizar([n]))
+  return lista
   ################ COMPLETAR
-  return 
 
 def ordenarPorDataHora(itens):
 
