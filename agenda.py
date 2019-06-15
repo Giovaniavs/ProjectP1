@@ -220,14 +220,15 @@ def listar():
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
+    
   return lista
-  ################ COMPLETAR
-
-def ordenarPorDataHora(itens):
 
   ################ COMPLETAR
 
-  return itens
+def ordenarPorDataHora(lista):
+    
+
+  return lista
    
 def ordenarPorPrioridade(itens):
 
