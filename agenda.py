@@ -214,22 +214,60 @@ def organizar(linhas): #completo
 # Uma extensão possível é listar com base em diversos critérios: (i) atividades com certa prioridade;
 # (ii) atividades a ser realizadas em certo contexto; (iii) atividades associadas com
 # determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
-# é uma das tarefas básicas do projeto, porém. 
+# é uma das tarefas básicas do projeto, porém.
+
 def listar():
   lista = []
+  listaDoida2 = []
+  listaDoida1 = []
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
-    
+  lista = ordenarPorDataHora(lista)
+  
   return lista
+      
 
   ################ COMPLETAR
 
 def ordenarPorDataHora(lista):
-    
+  listaDoida2 = [] #Lista dos Vazios
+  listaDoida1 = [] #Lista dos Numerados
+  listaResposta = []
+  for n in lista:
+    if n[0][1][0] == "" or n[0][1][1] == "":
+      listaDoida2.append(n)
+    else:
+      listaDoida1.append(n)
+  for n in range(len(listaDoida1)):
+    for n in range(len(listaDoida1)-1): #Algoritimo Blubble Sort para ordenar a lista conforme o pedido.
+      
+      if inverterData(listaDoida1[n][0][1][0]) > inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Data
+        listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+      
+      elif inverterData(listaDoida1[n][0][1][0]) == inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Hora!
+        if listaDoida1[n][0][1][1][0] != "0" and listaDoida1[n+1][0][1][1][0] != "0":
+          if int(listaDoida1[n][0][1][1]) > int(listaDoida1[n+1][0][1][1]):
+            listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+            
+        elif listaDoida1[n][0][1][1][0] != "0" and listaDoida1[n+1][0][1][1][0] == "0": 
+          listaDoida1[n+1], listaDoida1[n] = listaDoida1[n], listaDoida1[n+1]
+          
+        elif listaDoida1[n][0][1][1][0] == "0" and listaDoida1[n+1][0][1][1][0] == "0":
+          if int(listaDoida1[n][0][1][1][1] + listaDoida1[n][0][1][1][2] + listaDoida1[n][0][1][1][3]) > int(listaDoida1[n+1][0][1][1][1] + listaDoida1[n+1][0][1][1][2] + listaDoida1[n+1][0][1][1][3]):
+            listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+            
+        elif (listaDoida1[n][0][1][1][0] + listaDoida1[n][0][1][1][1]) == "00" and (listaDoida1[n+1][0][1][1][0] + listaDoida1[n+1][0][1][1][1]) == "00":
+          if int(listaDoida1[n][0][1][1][2] + listaDoida1[n][0][1][1][3]) > int(listaDoida1[n+1][0][1][1][2] + listaDoida1[n+1][0][1][1][3]):
+            listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+            
+        elif (listaDoida1[n][0][1][1][0] + listaDoida1[n][0][1][1][1] + listaDoida1[n][0][1][1][2]) == "000" and (listaDoida1[n+1][0][1][1][0] + listaDoida1[n+1][0][1][1][1] + listaDoida1[n+1][0][1][1][2]) == "000":
+          if int(listaDoida1[n][0][1][1][3]) > int(listaDoida1[n+1][0][1][1][3]):
+            lista[n], lista[n+1] = lista[n+1], lista[n]
+            
+  listaResposta = listaDoida1 + listaDoida2
+  return listaResposta
 
-  return lista
-   
 def ordenarPorPrioridade(itens):
 
   ################ COMPLETAR
@@ -293,6 +331,14 @@ def processarComandos(comandos) :
 
   else :
     print("Comando inválido.")
+
+def inverterData(string):
+  lista = []
+  for n in string:
+    lista.append(n)
+  dataInvertida = lista[4] + lista[5] + lista[6] + lista[7] +lista[0] + lista[1] + lista[2] + lista[3]
+  
+  return int(dataInvertida)
     
   
 # sys.argv é uma lista de strings onde o primeiro elemento é o nome do programa
