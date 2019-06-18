@@ -204,24 +204,54 @@ def organizar(linhas): #completo
 def listar(): #COMPLETO!!
   lista = []
   cont = 1
-  p = ""
+  texto1 = ""
+  texto2 = ""
+  texto3 = ""
+  texto4 = ""
+  texto5 = ""
+  texto6 = ""
+  dataFormatada = ""
+  horaFormatada = ""
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
   
-  
-  for n in lista:
-    for i in n[0][1]:
-      p = p + i + " "
-    print(cont, n[0][0], p)
-    cont += 1
-    p = ""
-    
-  
-    
+  for n in lista: 
+    if n[0][1][2] != "": #PRIORIDADE
+      texto1 = n[0][1][2] + " "
+    else:
+      texto1 = n[0][1][2]
       
+    if n[0][1][0] != "": #DATA
+      dataFormatada = n[0][1][0][0:2] + "/" + n[0][1][0][2:4] + "/" + n[0][1][0][4:8]
+      texto2 = dataFormatada + " "
+    else:
+      texto2 = n[0][1][0]
+      
+    if n[0][1][1] != "": #HORA
+      horaFormatada = n[0][1][1][0:2] + " Horas e " + n[0][1][1][2:4] + " Minutos"
+      texto3 = horaFormatada + " "
+    else:
+      texto3 = n[0][1][1]
+
+    texto4 = n[0][0] #STRING DESCRIÇÃO
+    texto5 = n[0][1][3] #CONTEXTO
+    texto6 = n[0][1][4] #PROJETO
+    textao = str(cont) + " " + texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #TEXTO FORMATADO DESEJADO
+
+    if n[0][1][2] == "(A)" or n[0][1][2] == "(a)":
+      printCores(textao, BLUE + BOLD)
+    elif n[0][1][2] == "(B)" or n[0][1][2] == "(b)":
+      printCores(textao, RED)
+    elif n[0][1][2] == "(C)" or n[0][1][2] == "(c)":
+      printCores(textao, GREEN)
+    elif n[0][1][2] == "(D)" or n[0][1][2] == "(d)":
+      printCores(textao, YELLOW)
+      
+    cont += 1
+    
 def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
   listaDoida2 = [] #Lista dos Vazios
   listaDoida1 = [] #Lista dos Numerados
