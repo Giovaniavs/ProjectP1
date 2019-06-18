@@ -68,7 +68,6 @@ def adicionar(descricao, extras): #completo
           
         
 
-  ################ COMPLETAR
 
 '''
   # Escreve no TODO_FILE. 
@@ -83,6 +82,7 @@ def adicionar(descricao, extras): #completo
 
   return True
 '''
+
 def horaValida(horaMin): #completo
     if type(horaMin) != str:
       return False
@@ -181,25 +181,18 @@ def organizar(linhas): #completo
     tokens = l.split()
     
   for i in range(len(tokens)):
-      
     if dataValida(tokens[0]) == True:
       data = tokens.pop(0)
-  
     elif horaValida(tokens[0]) == True:
       hora = tokens.pop(0)
-        
     elif prioridadeValida(tokens[0]) == True:
       pri = tokens.pop(0)
-      
     elif contextoValido(tokens[0]) ==  True:
       contexto = tokens.pop(0)
-
     elif projetoValido(tokens[0]) == True:
       projeto += tokens.pop(0)
-      
     elif (dataValida(tokens[0]) == False) and (horaValida(tokens[0]) == False) and (prioridadeValida(tokens[0]) == False) and (contextoValido(tokens[0]) == False) and (projetoValido(tokens[0]) == False):
       desc += tokens.pop(0) + " "
-      
        
   itens.append((desc, (data, hora, pri, contexto, projeto)))
   if desc == "":
@@ -208,29 +201,27 @@ def organizar(linhas): #completo
   return itens
 
 
-# Datas e horas são armazenadas nos formatos DDMMAAAA e HHMM, mas são exibidas
-# como se espera (com os separadores apropridados). 
-#
-# Uma extensão possível é listar com base em diversos critérios: (i) atividades com certa prioridade;
-# (ii) atividades a ser realizadas em certo contexto; (iii) atividades associadas com
-# determinado projeto; (vi) atividades de determinado dia (data específica, hoje ou amanhã). Isso não
-# é uma das tarefas básicas do projeto, porém.
-
-def listar():
+def listar(): #COMPLETO!!
   lista = []
-  listaDoida2 = []
-  listaDoida1 = []
+  cont = 1
+  p = ""
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
+  lista = ordenarPorPrioridade(lista)
+
+
+  for n in lista:
+    for i in n[0][1]:
+      p = p + i + " "
+    print(cont, n[0][0], p)
+    cont += 1
+    p = ""
   
-  return lista
+    
       
-
-  ################ COMPLETAR
-
-def ordenarPorDataHora(lista):
+def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
   listaDoida2 = [] #Lista dos Vazios
   listaDoida1 = [] #Lista dos Numerados
   listaResposta = []
@@ -241,38 +232,30 @@ def ordenarPorDataHora(lista):
       listaDoida1.append(n)
   for n in range(len(listaDoida1)):
     for n in range(len(listaDoida1)-1): #Algoritimo Blubble Sort para ordenar a lista conforme o pedido.
-      
-      if inverterData(listaDoida1[n][0][1][0]) > inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Data
+      if inverterData(listaDoida1[n][0][1][0]) > inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Data!
         listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
       
       elif inverterData(listaDoida1[n][0][1][0]) == inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Hora!
-        if listaDoida1[n][0][1][1][0] != "0" and listaDoida1[n+1][0][1][1][0] != "0":
           if int(listaDoida1[n][0][1][1]) > int(listaDoida1[n+1][0][1][1]):
             listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
-            
-        elif listaDoida1[n][0][1][1][0] != "0" and listaDoida1[n+1][0][1][1][0] == "0": 
-          listaDoida1[n+1], listaDoida1[n] = listaDoida1[n], listaDoida1[n+1]
-          
-        elif listaDoida1[n][0][1][1][0] == "0" and listaDoida1[n+1][0][1][1][0] == "0":
-          if int(listaDoida1[n][0][1][1][1] + listaDoida1[n][0][1][1][2] + listaDoida1[n][0][1][1][3]) > int(listaDoida1[n+1][0][1][1][1] + listaDoida1[n+1][0][1][1][2] + listaDoida1[n+1][0][1][1][3]):
-            listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
-            
-        elif (listaDoida1[n][0][1][1][0] + listaDoida1[n][0][1][1][1]) == "00" and (listaDoida1[n+1][0][1][1][0] + listaDoida1[n+1][0][1][1][1]) == "00":
-          if int(listaDoida1[n][0][1][1][2] + listaDoida1[n][0][1][1][3]) > int(listaDoida1[n+1][0][1][1][2] + listaDoida1[n+1][0][1][1][3]):
-            listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
-            
-        elif (listaDoida1[n][0][1][1][0] + listaDoida1[n][0][1][1][1] + listaDoida1[n][0][1][1][2]) == "000" and (listaDoida1[n+1][0][1][1][0] + listaDoida1[n+1][0][1][1][1] + listaDoida1[n+1][0][1][1][2]) == "000":
-          if int(listaDoida1[n][0][1][1][3]) > int(listaDoida1[n+1][0][1][1][3]):
-            lista[n], lista[n+1] = lista[n+1], lista[n]
-            
+
   listaResposta = listaDoida1 + listaDoida2
   return listaResposta
 
-def ordenarPorPrioridade(itens):
-
-  ################ COMPLETAR
-
-  return itens
+def ordenarPorPrioridade(lista):
+  listaDoida2 = [] #Lista dos Vazios!
+  listaDoida1 = [] #Lista das Prioridades!
+  for n in lista:
+    if n[0][1][2] == "":
+      listaDoida2.append(n)
+    else:
+      listaDoida1.append(n)
+  for n in range(len(listaDoida1)):
+    for n in range(len(listaDoida1)-1):
+      if (listaDoida1[n][0][1][2].upper() > listaDoida1[n+1][0][1][2].upper()) == True:
+        listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+  listaResposta = listaDoida1 + listaDoida2
+  return listaResposta
 
 def fazer(num):
 
@@ -310,7 +293,7 @@ def processarComandos(comandos) :
     itemParaAdicionar = organizar([' '.join(comandos)])[0]
     # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
     adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
-  elif comandos[1] == "l":
+  elif comandos[1] == LISTAR:
     return listar()
     ################ COMPLETAR
 
