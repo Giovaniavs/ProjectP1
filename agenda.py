@@ -210,14 +210,15 @@ def listar(): #COMPLETO!!
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
-
-
+  
+  
   for n in lista:
     for i in n[0][1]:
       p = p + i + " "
     print(cont, n[0][0], p)
     cont += 1
     p = ""
+    
   
     
       
@@ -226,7 +227,7 @@ def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
   listaDoida1 = [] #Lista dos Numerados
   listaResposta = []
   for n in lista:
-    if n[0][1][0] == "" or n[0][1][1] == "":
+    if n[0][1][1] == "" or n[0][1][0]== "":
       listaDoida2.append(n)
     else:
       listaDoida1.append(n)
@@ -254,6 +255,7 @@ def ordenarPorPrioridade(lista):
     for n in range(len(listaDoida1)-1):
       if (listaDoida1[n][0][1][2].upper() > listaDoida1[n+1][0][1][2].upper()) == True:
         listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+        
   listaResposta = listaDoida1 + listaDoida2
   return listaResposta
 
