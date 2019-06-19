@@ -175,24 +175,21 @@ def organizar(linhas): #completo
     l = l.strip()
     tokens = l.split()
     
-  for i in range(len(tokens)):
-    if dataValida(tokens[0]) == True:
-      data = tokens.pop(0)
-    elif horaValida(tokens[0]) == True:
-      hora = tokens.pop(0)
-    elif prioridadeValida(tokens[0]) == True:
-      pri = tokens.pop(0)
-    elif contextoValido(tokens[0]) ==  True:
-      contexto = tokens.pop(0)
-    elif projetoValido(tokens[0]) == True:
-      projeto += tokens.pop(0)
-    elif (dataValida(tokens[0]) == False) and (horaValida(tokens[0]) == False) and (prioridadeValida(tokens[0]) == False) and (contextoValido(tokens[0]) == False) and (projetoValido(tokens[0]) == False):
-      desc += tokens.pop(0) + " "
+  
+  if dataValida(tokens[0]) == True:
+    data = tokens.pop(0)
+  if horaValida(tokens[0]) == True:
+    hora = tokens.pop(0)
+  if prioridadeValida(tokens[0]) == True:
+    pri = tokens.pop(0)
+  if contextoValido(tokens[0]) ==  True:
+    contexto = tokens.pop(0)
+  if projetoValido(tokens[0]) == True:
+    projeto += tokens.pop(0)
+  if (dataValida(tokens[0]) == False) and (horaValida(tokens[0]) == False) and (prioridadeValida(tokens[0]) == False) and (contextoValido(tokens[0]) == False) and (projetoValido(tokens[0]) == False):
+    desc += tokens.pop(0) + " "
        
   itens.append((desc, (data, hora, pri, contexto, projeto)))
-  if desc == "":
-    return False
-
   return itens
 
 ##############################################################################################################################################################################################################
