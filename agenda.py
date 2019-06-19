@@ -18,14 +18,12 @@ FAZER = 'f'
 PRIORIZAR = 'p'
 LISTAR = 'l'
 
-# Imprime texto com cores. Por exemplo, para imprimir "Oi mundo!" em vermelho, basta usar
-#
-# printCores('Oi mundo!', RED)
-# printCores('Texto amarelo e negrito', YELLOW + BOLD)
+
 
 def printCores(texto, cor) :
   print(cor + texto + RESET)
   
+##############################################################################################################################################################################################################
 
 def adicionar(descricao, extras): #completo
   string = ""
@@ -67,6 +65,8 @@ def adicionar(descricao, extras): #completo
     string = string + n + " "
 
   return string
+
+##############################################################################################################################################################################################################
           
 
 def horaValida(horaMin): #completo
@@ -83,6 +83,8 @@ def horaValida(horaMin): #completo
         elif int(horaMin[2]) > 5:
             return False
     return True
+  
+##############################################################################################################################################################################################################
 
 def soDigitos(numero) : #completo
   if type(numero) != str :
@@ -91,6 +93,8 @@ def soDigitos(numero) : #completo
     if x < '0' or x > '9' :
       return False
   return True
+
+##############################################################################################################################################################################################################
 
 def dataValida(data): #completo (4 6 9 11) < meses de 30 dias
     if type(data) != str:
@@ -119,6 +123,8 @@ def dataValida(data): #completo (4 6 9 11) < meses de 30 dias
             if int(data[0]) > 2:
                 return False
     return True
+  
+##############################################################################################################################################################################################################
 
 
 def projetoValido(projeto): #completo
@@ -128,6 +134,8 @@ def projetoValido(projeto): #completo
         if projeto[0] != "+":
             return False
     return True
+  
+##############################################################################################################################################################################################################
 
 def contextoValido(projeto): #completo
     if len(projeto) < 2:
@@ -136,6 +144,8 @@ def contextoValido(projeto): #completo
         if projeto[0] != "@":
             return False
     return True
+  
+##############################################################################################################################################################################################################
 
 def prioridadeValida(prioridade): #completo
     if len(prioridade) != 3:
@@ -149,7 +159,7 @@ def prioridadeValida(prioridade): #completo
             return False
     return True
 
-        
+##############################################################################################################################################################################################################
 
 def organizar(linhas): #completo
   itens = []
@@ -185,16 +195,14 @@ def organizar(linhas): #completo
 
   return itens
 
+##############################################################################################################################################################################################################
+
 
 def listar(): #COMPLETO!!
   lista = []
   listaTemp = []
   listaResposta = []
-  listaNovaTemp1 = []
-  listaNovaTemp2 = []
   cont = 1
-  
-  
   dataFormatada = ""
   horaFormatada = ""
   arquivo = open("todo.txt","r")
@@ -202,40 +210,7 @@ def listar(): #COMPLETO!!
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
-  for n in lista:
-    if listaTemp == []:
-      listaTemp.append(n)
-    elif n[0][1][2].upper() == listaTemp[0][0][1][2].upper():
-      listaTemp.append(n)
-
-    listaResposta = listaResposta + listaTemp
-    listaTemp = []
-  print(listaResposta)
-    
-  '''
-    for n in range(len(listaTemp)):
-    if listaTemp[n][0][1][0] == "":
-      listaNovaTemp1.append(listaTemp[n])
-    else:
-      listaNovaTemp2.append(listaTemp[n])
-      
-  listaTemp = listaNovaTemp2 + listaNovaTemp1
-  listaResposta = listaResposta + listaTemp
-
-  if listaTemp != []:
-    listaTemp = []
-  '''
   
-
-    
-      
-  
-      
-
-      
-      
-        
-  '''
   for n in lista:
     texto1 = n[0][0] #DESCRIÇÃO
     texto2 = n[0][1][0] #DATA
@@ -274,7 +249,6 @@ def listar(): #COMPLETO!!
     texto4 = n[0][0] 
     
     textao = str(cont) + " " + texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #TEXTO FORMATADO DESEJADO
-
     
 
     if n[0][1][2] != "": 
@@ -290,33 +264,45 @@ def listar(): #COMPLETO!!
         print(textao) #TODOS AQUELES QUE NÃO SÃO [(A)(a)  (B)(b)  (C)(c)  (D)(d)]
     else:
       print(textao)
-    
-  
   
     cont += 1
-    
-  return lista
-    '''
+
+##############################################################################################################################################################################################################
+
 def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
   listaDoida2 = [] #Lista dos Vazios
   listaDoida1 = [] #Lista dos Numerados
   listaResposta = []
   for n in lista:
-    if n[0][1][1] == "" or n[0][1][0]== "":
+    if n[0][1][1] == "" and n[0][1][0] == "":
       listaDoida2.append(n)
     else:
       listaDoida1.append(n)
+      
   for n in range(len(listaDoida1)):
     for n in range(len(listaDoida1)-1): #Algoritimo Blubble Sort para ordenar a lista conforme o pedido.
-      if inverterData(listaDoida1[n][0][1][0]) > inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Data!
-        listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
       
-      elif inverterData(listaDoida1[n][0][1][0]) == inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Hora!
-          if int(listaDoida1[n][0][1][1]) > int(listaDoida1[n+1][0][1][1]):
+      if listaDoida1[n][0][1][0] != "" and listaDoida1[n+1][0][1][0] != "":
+        if inverterData(listaDoida1[n][0][1][0]) > inverterData(listaDoida1[n+1][0][1][0]): #Estudo da Data!
+          listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+      
+        elif listaDoida1[n][0][1][0] == listaDoida1[n+1][0][1][0]: #Estudo da Hora!
+          if listaDoida1[n][0][1][1] != "" and listaDoida1[n+1][0][1][1] != "":
+            if int(listaDoida1[n][0][1][1]) > int(listaDoida1[n+1][0][1][1]):
+              listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+              
+          elif listaDoida1[n][0][1][1] == "" and listaDoida1[n+1][0][1][1] != "":
             listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+          
+              
+      elif listaDoida1[n][0][1][0] == "" and listaDoida1[n+1][0][1][0] != "":
+        listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
 
+      
   listaResposta = listaDoida1 + listaDoida2
   return listaResposta
+
+##############################################################################################################################################################################################################
 
 def ordenarPorPrioridade(lista):
   listaDoida2 = [] #Lista dos Vazios!
@@ -334,13 +320,12 @@ def ordenarPorPrioridade(lista):
   listaResposta = listaDoida1 + listaDoida2
   return listaResposta
 
+##############################################################################################################################################################################################################
+
 def fazer(indice):
-  if type(indice) != str:
-    return print("Meu consagrado você só pode ser jogador de FREE FIRE. Buga meu trabalho ae n po, 4:50 da manhã e to eu aq e tu querendo bugar meu projeto #revolt >:( ")
   lista = []
   listaIndice = []
   cont = 1
-  ###################################################################################
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
@@ -394,24 +379,12 @@ def fazer(indice):
   if int(indice) > (len(lista)) or int(indice) < 1:
     return print("O indice desejado não existe")
 
-  
+##############################################################################################################################################################################################################
 
-  
-
-
-
-# prioridade é uma letra entre A a Z, onde A é a mais alta e Z a mais baixa.
-# num é o número da atividade cuja prioridade se planeja modificar, conforme
-# exibido pelo comando 'l'. 
 def priorizar(indice, prioridade):
-  if type(indice) != str or type(prioridade) != str:
-    return print("Pode não fera, só string plz")
-  if prioridadeValida(prioridade) == False:
-    return print("Coloca uma prioridade namoral ae po, buga meu projeto não =(")
   lista = []
   listaIndice = []
   cont = 1
-  
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
@@ -467,21 +440,11 @@ def priorizar(indice, prioridade):
   if int(indice) > (len(lista)) or int(indice) < 1:
     return print("O indice desejado não existe")
       
+##############################################################################################################################################################################################################
 
-
-
-
-# Esta função processa os comandos e informações passados através da linha de comando e identifica
-# que função do programa deve ser invocada. Por exemplo, se o comando 'adicionar' foi usado,
-# isso significa que a função adicionar() deve ser invocada para registrar a nova atividade.
-# O bloco principal fica responsável também por tirar espaços em branco no início e fim dos strings
-# usando o método strip(). Além disso, realiza a validação de horas, datas, prioridades, contextos e
-# projetos. 
-def processarComandos(comandos) :
-  
+def processarComandos(comandos):
   if len(comandos) < 2 :
     return print("Você precisa digitar algo meu consagrado")
-  
   elif comandos[1].lower() == ADICIONAR:
     palavra = ""
     arquivo = open("todo.txt","a")
@@ -496,24 +459,22 @@ def processarComandos(comandos) :
   elif comandos[1].lower() == LISTAR:
     return listar()
     
-
   elif comandos[1].lower() == REMOVER: #completo
     comandos.pop(0)
     comandos.pop(0)
     return remover(comandos[0])
-
 
   elif comandos[1].lower() == FAZER: #completo
     comandos.pop(0)
     comandos.pop(0)
     return fazer(comandos[0])
 
-
   elif comandos[1].lower() == PRIORIZAR: #completo
     comandos.pop(0)
     comandos.pop(0)
     return priorizar(comandos[0],comandos[1])
 
+##############################################################################################################################################################################################################
 
 def remover(indice):
   if type(indice) != str:
@@ -521,7 +482,6 @@ def remover(indice):
   lista = []
   listaIndice = []
   cont = 1
-  ###################################################################################
   arquivo = open("todo.txt","r")
   for n in arquivo:
     lista.append(organizar([n]))
@@ -551,7 +511,7 @@ def remover(indice):
       texto4 = n[0][1][2] + " "
     else:
       texto4 = n[0][1][2]
-      
+
     if n[0][1][3] != "":
       texto5 = n[0][1][3] + " "
     else:
@@ -582,16 +542,5 @@ def inverterData(string):
   
   return int(dataInvertida)
 
-    
-  
-# sys.argv é uma lista de strings onde o primeiro elemento é o nome do programa
-# invocado a partir da linha de comando e os elementos restantes são tudo que
-# foi fornecido em sequência. Por exemplo, se o programa foi invocado como
-#
-# python3 agenda.py a Mudar de nome.
-#
-# sys.argv terá como conteúdo
-#
-# ['agenda.py', 'a', 'Mudar', 'de', 'nome']
-#processarComandos(sys.argv)
+processarComandos(sys.argv)
 
