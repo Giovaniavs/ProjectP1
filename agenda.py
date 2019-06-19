@@ -188,7 +188,12 @@ def organizar(linhas): #completo
 
 def listar(): #COMPLETO!!
   lista = []
+  listaTemp = []
+  listaResposta = []
+  listaNovaTemp1 = []
+  listaNovaTemp2 = []
   cont = 1
+  
   
   dataFormatada = ""
   horaFormatada = ""
@@ -197,7 +202,40 @@ def listar(): #COMPLETO!!
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
+  for n in lista:
+    if listaTemp == []:
+      listaTemp.append(n)
+    elif n[0][1][2].upper() == listaTemp[0][0][1][2].upper():
+      listaTemp.append(n)
+
+    listaResposta = listaResposta + listaTemp
+    listaTemp = []
+  print(listaResposta)
+    
+  '''
+    for n in range(len(listaTemp)):
+    if listaTemp[n][0][1][0] == "":
+      listaNovaTemp1.append(listaTemp[n])
+    else:
+      listaNovaTemp2.append(listaTemp[n])
+      
+  listaTemp = listaNovaTemp2 + listaNovaTemp1
+  listaResposta = listaResposta + listaTemp
+
+  if listaTemp != []:
+    listaTemp = []
+  '''
   
+
+    
+      
+  
+      
+
+      
+      
+        
+  '''
   for n in lista:
     texto1 = n[0][0] #DESCRIÇÃO
     texto2 = n[0][1][0] #DATA
@@ -257,6 +295,8 @@ def listar(): #COMPLETO!!
   
     cont += 1
     
+  return lista
+    '''
 def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
   listaDoida2 = [] #Lista dos Vazios
   listaDoida1 = [] #Lista dos Numerados
@@ -541,6 +581,7 @@ def inverterData(string):
   dataInvertida = lista[4] + lista[5] + lista[6] + lista[7] +lista[0] + lista[1] + lista[2] + lista[3]
   
   return int(dataInvertida)
+
     
   
 # sys.argv é uma lista de strings onde o primeiro elemento é o nome do programa
@@ -552,5 +593,5 @@ def inverterData(string):
 # sys.argv terá como conteúdo
 #
 # ['agenda.py', 'a', 'Mudar', 'de', 'nome']
-processarComandos(sys.argv)
+#processarComandos(sys.argv)
 
