@@ -28,6 +28,7 @@ def printCores(texto, cor) :
   
 
 def adicionar(descricao, extras): #completo
+  string = ""
   lista = []
   listaResposta = []
   for elemento in extras:
@@ -61,27 +62,12 @@ def adicionar(descricao, extras): #completo
           lista.pop(0)
       else:
           lista.pop(0)
-  
-
-  return listaResposta
           
+  for n in listaResposta:
+    string = string + n + " "
+
+  return string
           
-        
-
-
-'''
-  # Escreve no TODO_FILE. 
-  try: 
-    fp = open(TODO_FILE, 'a')
-    fp.write(novaAtividade + "\n")
-    fp.close()
-  except IOError as err:
-    print("Não foi possível escrever para o arquivo " + TODO_FILE)
-    print(err)
-    return False
-
-  return True
-'''
 
 def horaValida(horaMin): #completo
     if type(horaMin) != str:
@@ -166,7 +152,6 @@ def prioridadeValida(prioridade): #completo
         
 
 def organizar(linhas): #completo
-  cont = 0
   itens = []
 
   for l in linhas:
@@ -204,12 +189,7 @@ def organizar(linhas): #completo
 def listar(): #COMPLETO!!
   lista = []
   cont = 1
-  texto1 = ""
-  texto2 = ""
-  texto3 = ""
-  texto4 = ""
-  texto5 = ""
-  texto6 = ""
+  
   dataFormatada = ""
   horaFormatada = ""
   arquivo = open("todo.txt","r")
@@ -218,38 +198,63 @@ def listar(): #COMPLETO!!
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
   
-  for n in lista: 
-    if n[0][1][2] != "": #PRIORIDADE
+  for n in lista:
+    texto1 = n[0][0] #DESCRIÇÃO
+    texto2 = n[0][1][0] #DATA
+    texto3 = n[0][1][1] #HORA
+    texto4 = n[0][1][2] #PRIORIDADE
+    texto5 = n[0][1][3] #CONTEXTO
+    texto6 = n[0][1][4] #PROJETO
+    
+    if n[0][1][2] != "": 
       texto1 = n[0][1][2] + " "
     else:
       texto1 = n[0][1][2]
-      
-    if n[0][1][0] != "": #DATA
+  
+    if n[0][1][0] != "": 
       dataFormatada = n[0][1][0][0:2] + "/" + n[0][1][0][2:4] + "/" + n[0][1][0][4:8]
       texto2 = dataFormatada + " "
     else:
       texto2 = n[0][1][0]
       
-    if n[0][1][1] != "": #HORA
+    if n[0][1][1] != "": 
       horaFormatada = n[0][1][1][0:2] + " Horas e " + n[0][1][1][2:4] + " Minutos"
       texto3 = horaFormatada + " "
     else:
       texto3 = n[0][1][1]
+      
+    if n[0][1][3] != "": 
+      texto5 = n[0][1][3] + " " 
+    else:
+      texto5 = n[0][1][3] 
+      
+    if n[0][1][4] != "": 
+      texto6 = n[0][1][4] + " "
+    else:
+      texto6 = n[0][1][4]
 
-    texto4 = n[0][0] #STRING DESCRIÇÃO
-    texto5 = n[0][1][3] #CONTEXTO
-    texto6 = n[0][1][4] #PROJETO
+    texto4 = n[0][0] 
+    
     textao = str(cont) + " " + texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #TEXTO FORMATADO DESEJADO
 
-    if n[0][1][2] == "(A)" or n[0][1][2] == "(a)":
-      printCores(textao, BLUE + BOLD)
-    elif n[0][1][2] == "(B)" or n[0][1][2] == "(b)":
-      printCores(textao, RED)
-    elif n[0][1][2] == "(C)" or n[0][1][2] == "(c)":
-      printCores(textao, GREEN)
-    elif n[0][1][2] == "(D)" or n[0][1][2] == "(d)":
-      printCores(textao, YELLOW)
-      
+    
+
+    if n[0][1][2] != "": 
+      if n[0][1][2] == "(A)" or n[0][1][2] == "(a)":
+        printCores(textao, BLUE + BOLD)
+      elif n[0][1][2] == "(B)" or n[0][1][2] == "(b)":
+        printCores(textao, RED)
+      elif n[0][1][2] == "(C)" or n[0][1][2] == "(c)":
+        printCores(textao, GREEN)
+      elif n[0][1][2] == "(D)" or n[0][1][2] == "(d)":
+        printCores(textao, YELLOW)
+      else:
+        print(textao) #TODOS AQUELES QUE NÃO SÃO [(A)(a)  (B)(b)  (C)(c)  (D)(d)]
+    else:
+      print(textao)
+    
+  
+  
     cont += 1
     
 def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
@@ -289,26 +294,140 @@ def ordenarPorPrioridade(lista):
   listaResposta = listaDoida1 + listaDoida2
   return listaResposta
 
-def fazer(num):
+def fazer(indice):
+  if type(indice) != str:
+    return print("Meu consagrado você só pode ser jogador de FREE FIRE. Buga meu trabalho ae n po, 4:50 da manhã e to eu aq e tu querendo bugar meu projeto #revolt >:( ")
+  lista = []
+  listaIndice = []
+  cont = 1
+  ###################################################################################
+  arquivo = open("todo.txt","r")
+  for n in arquivo:
+    lista.append(organizar([n]))
+  lista = ordenarPorDataHora(lista)
+  lista = ordenarPorPrioridade(lista)
+  arquivo.close()
+  arquivo = open("todo.txt","w")
+  arquivo2 = open("done.txt","a")
+  for n in lista:
+    texto1 = n[0][0] #DESCRIÇÃO
+    texto2 = n[0][1][0] #DATA
+    texto3 = n[0][1][1] #HORA
+    texto4 = n[0][1][2] #PRIORIDADE
+    texto5 = n[0][1][3] #CONTEXTO
+    texto6 = n[0][1][4] #PROJETO
+    
+    if n[0][1][0] != "":
+      texto2 = n[0][1][0] + " "
+    else:
+      texto2 = n[0][1][0]
+      
+    if n[0][1][1] != "":
+      texto3 = n[0][1][1] + " "
+    else:
+      texto3 = n[0][1][1]
+      
+    if n[0][1][2] != "":
+      texto4 = n[0][1][2] + " "
+    else:
+      texto4 = n[0][1][2]
+      
+    if n[0][1][3] != "":
+      texto5 = n[0][1][3] + " "
+    else:
+      texto5 = n[0][1][3] 
+      
+    if n[0][1][4] != "":
+      texto6 = n[0][1][4] + " "
+    else:
+      texto6 = n[0][1][4]
+      
+    string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+    
+    posicao = str(cont),n
+    if posicao[0] != indice: #POSICAO QUE VARIA DE ACORDO COM A REMOÇÃO, PORÉM É UM VALOR CONSISTENTE
+      arquivo.write(string+"\n")
+      cont += 1
+    else:
+      arquivo2.write(string+"\n")
+      cont += 1
+  if int(indice) > (len(lista)) or int(indice) < 1:
+    return print("O indice desejado não existe")
 
-  ################ COMPLETAR
+  
 
-  return 
+  
 
-def remover():
 
-  ################ COMPLETAR
-
-  return
 
 # prioridade é uma letra entre A a Z, onde A é a mais alta e Z a mais baixa.
 # num é o número da atividade cuja prioridade se planeja modificar, conforme
 # exibido pelo comando 'l'. 
-def priorizar(num, prioridade):
+def priorizar(indice, prioridade):
+  if type(indice) != str or type(prioridade) != str:
+    return print("Pode não fera, só string plz")
+  if prioridadeValida(prioridade) == False:
+    return print("Coloca uma prioridade namoral ae po, buga meu projeto não =(")
+  lista = []
+  listaIndice = []
+  cont = 1
+  
+  arquivo = open("todo.txt","r")
+  for n in arquivo:
+    lista.append(organizar([n]))
+  lista = ordenarPorDataHora(lista)
+  lista = ordenarPorPrioridade(lista)
+  arquivo.close()
+  arquivo = open("todo.txt","w")
+  for n in lista:
+    texto1 = n[0][0] #DESCRIÇÃO
+    texto2 = n[0][1][0] #DATA
+    texto3 = n[0][1][1] #HORA
+    texto4 = n[0][1][2] #PRIORIDADE
+    texto5 = n[0][1][3] #CONTEXTO
+    texto6 = n[0][1][4] #PROJETO
+    
+    if n[0][1][0] != "":
+      texto2 = n[0][1][0] + " "
+    else:
+      texto2 = n[0][1][0]
+      
+    if n[0][1][1] != "":
+      texto3 = n[0][1][1] + " "
+    else:
+      texto3 = n[0][1][1]
+      
+    if n[0][1][2] != "":
+      texto4 = n[0][1][2] + " "
+    else:
+      texto4 = n[0][1][2]
+      
+    if n[0][1][3] != "":
+      texto5 = n[0][1][3] + " "
+    else:
+      texto5 = n[0][1][3] 
+      
+    if n[0][1][4] != "":
+      texto6 = n[0][1][4] + " "
+    else:
+      texto6 = n[0][1][4]
+      
+    string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
 
-  ################ COMPLETAR
+    posicao = str(cont),n
+    if posicao[0] == indice: #POSICAO QUE VARIA DE ACORDO COM A ALTERAÇÃO, PORÉM É UM VALOR CONSISTENTE
+      texto4 = prioridade + " "
+      string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+      arquivo.write(string+"\n")
+      cont += 1
+    else:
+      arquivo.write(string+"\n")
+      cont += 1
+      
+  if int(indice) > (len(lista)) or int(indice) < 1:
+    return print("O indice desejado não existe")
+      
 
-  return 
 
 
 
@@ -319,33 +438,101 @@ def priorizar(num, prioridade):
 # usando o método strip(). Além disso, realiza a validação de horas, datas, prioridades, contextos e
 # projetos. 
 def processarComandos(comandos) :
-  if comandos[1] == ADICIONAR:
-    comandos.pop(0) # remove 'agenda.py'
-    comandos.pop(0) # remove 'adicionar'
-    itemParaAdicionar = organizar([' '.join(comandos)])[0]
-    # itemParaAdicionar = (descricao, (prioridade, data, hora, contexto, projeto))
-    adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) # novos itens não têm prioridade
-  elif comandos[1] == LISTAR:
+  
+  if len(comandos) < 2 :
+    return print("Você precisa digitar algo meu consagrado")
+  
+  elif comandos[1].lower() == ADICIONAR:
+    palavra = ""
+    arquivo = open("todo.txt","a")
+    comandos.pop(0) 
+    comandos.pop(0)
+    for n in comandos:
+      palavra = palavra + n + " "
+    palavraOrganizada = organizar([palavra])
+    
+    arquivo.write(adicionar(palavraOrganizada[0][0],palavraOrganizada[0][1])+"\n")
+
+  elif comandos[1].lower() == LISTAR:
     return listar()
-    ################ COMPLETAR
+    
 
-  elif comandos[1] == REMOVER:
-    return    
+  elif comandos[1].lower() == REMOVER: #completo
+    comandos.pop(0)
+    comandos.pop(0)
+    return remover(comandos[0])
 
-    ################ COMPLETAR    
 
-  elif comandos[1] == FAZER:
-    return    
+  elif comandos[1].lower() == FAZER: #completo
+    comandos.pop(0)
+    comandos.pop(0)
+    return fazer(comandos[0])
 
-    ################ COMPLETAR
 
-  elif comandos[1] == PRIORIZAR:
-    return    
+  elif comandos[1].lower() == PRIORIZAR: #completo
+    comandos.pop(0)
+    comandos.pop(0)
+    return priorizar(comandos[0],comandos[1])
 
-    ################ COMPLETAR
 
-  else :
-    print("Comando inválido.")
+def remover(indice):
+  if type(indice) != str:
+    return print("Meu consagrado você só pode ser jogador de FREE FIRE. Buga meu trabalho ae n po, 4:50 da manhã e to eu aq e tu querendo bugar meu projeto #revolt >:( ")
+  lista = []
+  listaIndice = []
+  cont = 1
+  ###################################################################################
+  arquivo = open("todo.txt","r")
+  for n in arquivo:
+    lista.append(organizar([n]))
+  lista = ordenarPorDataHora(lista)
+  lista = ordenarPorPrioridade(lista)
+  arquivo.close()
+  arquivo = open("todo.txt","w")
+  for n in lista:
+    texto1 = n[0][0] #DESCRIÇÃO
+    texto2 = n[0][1][0] #DATA
+    texto3 = n[0][1][1] #HORA
+    texto4 = n[0][1][2] #PRIORIDADE
+    texto5 = n[0][1][3] #CONTEXTO
+    texto6 = n[0][1][4] #PROJETO
+    
+    if n[0][1][0] != "":
+      texto2 = n[0][1][0] + " "
+    else:
+      texto2 = n[0][1][0]
+      
+    if n[0][1][1] != "":
+      texto3 = n[0][1][1] + " "
+    else:
+      texto3 = n[0][1][1]
+      
+    if n[0][1][2] != "":
+      texto4 = n[0][1][2] + " "
+    else:
+      texto4 = n[0][1][2]
+      
+    if n[0][1][3] != "":
+      texto5 = n[0][1][3] + " "
+    else:
+      texto5 = n[0][1][3] 
+      
+    if n[0][1][4] != "":
+      texto6 = n[0][1][4] + " "
+    else:
+      texto6 = n[0][1][4]
+      
+    string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+    
+    posicao = str(cont),n
+    if posicao[0] != indice: #POSICAO QUE VARIA DE ACORDO COM A REMOÇÃO, PORÉM É UM VALOR CONSISTENTE
+      arquivo.write(string+"\n")
+      cont += 1
+    else:
+      cont += 1
+  if int(indice) > (len(lista)) or int(indice) < 1:
+    return print("O indice desejado não existe")
+   
 
 def inverterData(string):
   lista = []
@@ -365,4 +552,5 @@ def inverterData(string):
 # sys.argv terá como conteúdo
 #
 # ['agenda.py', 'a', 'Mudar', 'de', 'nome']
-#processarComandos(sys.argv)
+processarComandos(sys.argv)
+

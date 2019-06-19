@@ -1,13 +1,9 @@
-ÔªøComer menos a√ß√∫car 
-(B) Terminar a especifica√ß√£o do projeto de IF968. +IF968
-(B) Publicar a especifica√ß√£o do projeto de IF968 terminada. +IF968
-23052777 0250 (A) Corrigir provas de IF968 +IF968
-23052050 1030 (b) Reuni√£o com Huguinho, Luizinho e Zezinho. @Skype +Pesquisa
-23052000 0930 (C) Ler artigo IST. +Servi√ßo
-2330 Dormir cedo @Casa
-(B) Revisar artigo IST +Service
-(B) Revisar artigos SBES +Service
-(B) Revisar artigos SBES Education +Service
-(B) Revisar artigos SBES Insightful Ideas +Service
-(B) Revisar artigos SBLP +Service
-(D) Read "Optimizing energy consumption of GUIs in android apps: A multi-objective approach."
+Ler artigo IST. 23052017 1230 (A) +ServiÁo 
+Corrigir provas de IF968 (A) +IF968 
+Read "Optimizing energy consumption of GUIs in android apps: A multi-objective approach."Corrigir provas de IF968 (A) @dasdsa +IF968 
+ola mundo 27022000 (a) 
+Terminar a especificaÁ„o do projeto de IF968. (B) +IF968 
+Publicar a especificaÁ„o do projeto de IF968 terminada. (B) +IF968 
+Revisar artigo IST (B) +Service 
+Revisar artigos SBES (B) +Service 
+ola mundo 20021975 (a) 
