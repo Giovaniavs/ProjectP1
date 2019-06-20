@@ -163,6 +163,7 @@ def prioridadeValida(prioridade): #completo
 
 def organizar(linhas): #completo
   itens = []
+  cont = 1
 
   for l in linhas:
     data = '' 
@@ -175,19 +176,25 @@ def organizar(linhas): #completo
     l = l.strip()
     tokens = l.split()
     
+    
+    
+    if dataValida(tokens[0]) == True:
+      data = tokens.pop(0)
+
+    if horaValida(tokens[0]) == True:
+      hora = tokens.pop(0)
   
-  if dataValida(tokens[0]) == True:
-    data = tokens.pop(0)
-  if horaValida(tokens[0]) == True:
-    hora = tokens.pop(0)
-  if prioridadeValida(tokens[0]) == True:
-    pri = tokens.pop(0)
-  if contextoValido(tokens[0]) ==  True:
-    contexto = tokens.pop(0)
-  if projetoValido(tokens[0]) == True:
-    projeto += tokens.pop(0)
-  if (dataValida(tokens[0]) == False) and (horaValida(tokens[0]) == False) and (prioridadeValida(tokens[0]) == False) and (contextoValido(tokens[0]) == False) and (projetoValido(tokens[0]) == False):
-    desc += tokens.pop(0) + " "
+    if prioridadeValida(tokens[0]) == True:
+      pri = tokens.pop(0)
+      
+    if contextoValido(tokens[0]) ==  True:
+      contexto = tokens.pop(0)
+      
+    if projetoValido(tokens[0]) == True:
+      projeto += tokens.pop(0)
+    
+
+    cont+= 1
        
   itens.append((desc, (data, hora, pri, contexto, projeto)))
   return itens
@@ -207,7 +214,7 @@ def listar(): #COMPLETO!!
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
-  
+
   for n in lista:
     texto1 = n[0][0] #DESCRIÇÃO
     texto2 = n[0][1][0] #DATA
@@ -290,6 +297,7 @@ def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
               
           elif listaDoida1[n][0][1][1] == "" and listaDoida1[n+1][0][1][1] != "":
             listaDoida1[n], listaDoida1[n+1] = listaDoida1[n+1], listaDoida1[n]
+
           
               
       elif listaDoida1[n][0][1][0] == "" and listaDoida1[n+1][0][1][0] != "":
@@ -364,7 +372,7 @@ def fazer(indice):
     else:
       texto6 = n[0][1][4]
       
-    string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+    string =  texto2 + texto3 + texto1 +  texto4 + texto5 + texto6 #STRING FORMATADA
     
     posicao = str(cont),n
     if posicao[0] != indice: #POSICAO QUE VARIA DE ACORDO COM A REMOÇÃO, PORÉM É UM VALOR CONSISTENTE
@@ -422,12 +430,12 @@ def priorizar(indice, prioridade):
     else:
       texto6 = n[0][1][4]
       
-    string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+    string = texto2 + texto3 + texto1 + texto4 + texto5 + texto6 #STRING FORMATADA
 
     posicao = str(cont),n
     if posicao[0] == indice: #POSICAO QUE VARIA DE ACORDO COM A ALTERAÇÃO, PORÉM É UM VALOR CONSISTENTE
       texto4 = prioridade + " "
-      string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+      string = texto2 + texto3 + texto1 + texto4 + texto5 + texto6 #STRING FORMATADA
       arquivo.write(string+"\n")
       cont += 1
     else:
@@ -519,7 +527,7 @@ def remover(indice):
     else:
       texto6 = n[0][1][4]
       
-    string = texto1 + texto2 + texto3 + texto4 + texto5 + texto6 #STRING FORMATADA
+    string = texto2 + texto3 +texto1 + texto4 + texto5 + texto6 #STRING FORMATADA
     
     posicao = str(cont),n
     if posicao[0] != indice: #POSICAO QUE VARIA DE ACORDO COM A REMOÇÃO, PORÉM É UM VALOR CONSISTENTE
