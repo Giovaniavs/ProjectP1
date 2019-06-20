@@ -163,7 +163,6 @@ def prioridadeValida(prioridade): #completo
 
 def organizar(linhas): #completo
   itens = []
-  cont = 1
 
   for l in linhas:
     data = '' 
@@ -187,15 +186,16 @@ def organizar(linhas): #completo
     if prioridadeValida(tokens[0]) == True:
       pri = tokens.pop(0)
       
-    if contextoValido(tokens[0]) ==  True:
-      contexto = tokens.pop(0)
+    if projetoValido(tokens[-1]) == True:
+      projeto += tokens.pop()
       
-    if projetoValido(tokens[0]) == True:
-      projeto += tokens.pop(0)
-    
+    if contextoValido(tokens[-1]) ==  True:
+      contexto = tokens.pop()
 
-    cont+= 1
-       
+    for n in tokens:
+      desc += n + " "
+
+  
   itens.append((desc, (data, hora, pri, contexto, projeto)))
   return itens
 
