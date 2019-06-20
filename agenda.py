@@ -176,7 +176,6 @@ def organizar(linhas): #completo
     tokens = l.split()
     
     
-    
     if dataValida(tokens[0]) == True:
       data = tokens.pop(0)
 
@@ -187,7 +186,7 @@ def organizar(linhas): #completo
       pri = tokens.pop(0)
       
     if projetoValido(tokens[-1]) == True:
-      projeto += tokens.pop()
+      projeto = tokens.pop()
       
     if contextoValido(tokens[-1]) ==  True:
       contexto = tokens.pop()
@@ -372,7 +371,7 @@ def fazer(indice):
     else:
       texto6 = n[0][1][4]
       
-    string =  texto2 + texto3 + texto1 +  texto4 + texto5 + texto6 #STRING FORMATADA
+    string =  texto2 + texto3 + texto4 +  texto1 + texto5 + texto6 #STRING FORMATADA
     
     posicao = str(cont),n
     if posicao[0] != indice: #POSICAO QUE VARIA DE ACORDO COM A REMOÇÃO, PORÉM É UM VALOR CONSISTENTE
@@ -430,12 +429,12 @@ def priorizar(indice, prioridade):
     else:
       texto6 = n[0][1][4]
       
-    string = texto2 + texto3 + texto1 + texto4 + texto5 + texto6 #STRING FORMATADA
+    string = texto2 + texto3 + texto4 + texto1 + texto5 + texto6 #STRING FORMATADA
 
     posicao = str(cont),n
     if posicao[0] == indice: #POSICAO QUE VARIA DE ACORDO COM A ALTERAÇÃO, PORÉM É UM VALOR CONSISTENTE
       texto4 = prioridade + " "
-      string = texto2 + texto3 + texto1 + texto4 + texto5 + texto6 #STRING FORMATADA
+      string = texto2 + texto3 + texto4 + texto1 + texto5 + texto6 #STRING FORMATADA
       arquivo.write(string+"\n")
       cont += 1
     else:
@@ -458,6 +457,7 @@ def processarComandos(comandos):
     for n in comandos:
       palavra = palavra + n + " "
     palavraOrganizada = organizar([palavra])
+    print(palavraOrganizada)
     
     arquivo.write(adicionar(palavraOrganizada[0][0],palavraOrganizada[0][1])+"\n")
 
@@ -527,7 +527,7 @@ def remover(indice):
     else:
       texto6 = n[0][1][4]
       
-    string = texto2 + texto3 +texto1 + texto4 + texto5 + texto6 #STRING FORMATADA
+    string = texto2 + texto3 + texto4 + texto1 + texto5 + texto6 #STRING FORMATADA
     
     posicao = str(cont),n
     if posicao[0] != indice: #POSICAO QUE VARIA DE ACORDO COM A REMOÇÃO, PORÉM É UM VALOR CONSISTENTE
