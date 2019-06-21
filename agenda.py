@@ -26,45 +26,56 @@ def printCores(texto, cor) :
 ##############################################################################################################################################################################################################
 
 def adicionar(descricao, extras): #completo
-  string = ""
-  lista = []
-  listaResposta = []
-  for elemento in extras:
-    lista.append(elemento)
-  if descricao  == '' :
-    return False
-  else:
-      listaResposta.append(descricao)
-      if dataValida(lista[0]) == True:
-          listaResposta.append(lista[0])
-          lista.pop(0)
-      else:
-          lista.pop(0)
-      if horaValida(lista[0]) == True:
-          listaResposta.append(lista[0])
-          lista.pop(0)
-      else:
-          lista.pop(0)
-      if prioridadeValida(lista[0]) == True:
-          listaResposta.append(lista[0])
-          lista.pop(0)
-      else:
-          lista.pop(0)
-      if contextoValido(lista[0]) == True:
-          listaResposta.append(lista[0])
-          lista.pop(0)
-      else:
-          lista.pop(0)
-      if projetoValido(lista[0]) == True:
-          listaResposta.append(lista[0])
-          lista.pop(0)
-      else:
-          lista.pop(0)
-          
-  for n in listaResposta:
-    string = string + n + " "
+  lista = [(descricao, extras)]
 
-  return string
+  texto1 = lista[0][0] #DESCRIÇÃO
+  texto2 = lista[0][1][0] #DATA
+  texto3 = lista[0][1][1] #HORA
+  texto4 = lista[0][1][2] #PRIORIDADE
+  texto5 = lista[0][1][3] #CONTEXTO
+  texto6 = lista[0][1][4] #PROJETO
+    
+  if lista[0][1][0] != "":
+    texto2 = lista[0][1][0] + " "
+  else:
+    texto2 = lista[0][1][0]
+      
+  if lista[0][1][1] != "":
+    texto3 = lista[0][1][1] + " "
+  else:
+    texto3 = lista[0][1][1]
+      
+  if lista[0][1][2] != "":
+    texto4 = lista[0][1][2] + " "
+  else:
+    texto4 = lista[0][1][2]
+
+  if lista[0][1][3] != "":
+    texto5 = lista[0][1][3] + " "
+  else:
+    texto5 = lista[0][1][3] 
+      
+  if lista[0][1][4] != "":
+    texto6 = lista[0][1][4] + " "
+  else:
+    texto6 = lista[0][1][4]
+      
+  string = texto2 + texto3 + texto4 + texto1 + texto5 + texto6
+  
+  try: 
+    fp = open(TODO_FILE, 'a')
+    fp.write(string + "\n")
+    fp.close()
+    
+  except IOError as err:
+    print("Não foi possível escrever para o arquivo " + TODO_FILE)
+    print(err)
+    return False
+
+  return print("Atividade registrada com sucesso!")
+  
+  
+
 
 ##############################################################################################################################################################################################################
           
@@ -175,20 +186,19 @@ def organizar(linhas): #completo
     l = l.strip()
     tokens = l.split()
     
-    
-    if dataValida(tokens[0]) == True:
+    if tokens != [] and dataValida(tokens[0]) == True:
       data = tokens.pop(0)
 
-    if horaValida(tokens[0]) == True:
+    if tokens != [] and horaValida(tokens[0]) == True:
       hora = tokens.pop(0)
   
-    if prioridadeValida(tokens[0]) == True:
+    if tokens != [] and prioridadeValida(tokens[0]) == True:
       pri = tokens.pop(0)
       
-    if projetoValido(tokens[-1]) == True:
+    if tokens != [] and projetoValido(tokens[-1]) == True:
       projeto = tokens.pop()
       
-    if contextoValido(tokens[-1]) ==  True:
+    if tokens != [] and contextoValido(tokens[-1]) ==  True:
       contexto = tokens.pop()
 
     for n in tokens:
@@ -208,7 +218,7 @@ def listar(): #COMPLETO!!
   cont = 1
   dataFormatada = ""
   horaFormatada = ""
-  arquivo = open("todo.txt","r")
+  arquivo = open(TODO_FILE,"r")
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
@@ -330,14 +340,14 @@ def fazer(indice):
   lista = []
   listaIndice = []
   cont = 1
-  arquivo = open("todo.txt","r")
+  arquivo = open(TODO_FILE,"r")
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
   arquivo.close()
-  arquivo = open("todo.txt","w")
-  arquivo2 = open("done.txt","a")
+  arquivo = open(TODO_FILE,"w")
+  arquivo2 = open(ARCHIVE_FILE,"a")
   for n in lista:
     texto1 = n[0][0] #DESCRIÇÃO
     texto2 = n[0][1][0] #DATA
@@ -383,19 +393,26 @@ def fazer(indice):
   if int(indice) > (len(lista)) or int(indice) < 1:
     return print("O indice desejado não existe")
 
+  arquivo.close()
+  arquivo2.close()
+  
+  return print("Atividade feita com sucesso!")
+
 ##############################################################################################################################################################################################################
 
 def priorizar(indice, prioridade):
   lista = []
   listaIndice = []
   cont = 1
-  arquivo = open("todo.txt","r")
+  arquivo = open(TODO_FILE,"r")
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
+  
   arquivo.close()
-  arquivo = open("todo.txt","w")
+  
+  arquivo = open(TODO_FILE,"w")
   for n in lista:
     texto1 = n[0][0] #DESCRIÇÃO
     texto2 = n[0][1][0] #DATA
@@ -443,38 +460,54 @@ def priorizar(indice, prioridade):
       
   if int(indice) > (len(lista)) or int(indice) < 1:
     return print("O indice desejado não existe")
+  
+  arquivo.close()
+  
+  return print("Atividade priorizada com sucesso!")
       
 ##############################################################################################################################################################################################################
 
 def processarComandos(comandos):
   if len(comandos) < 2 :
     return print("Você precisa digitar algo meu consagrado")
+
+  if len(comandos) == 2 and comandos[1].lower() != "l":
+    return print("Comando inválido")
+  
+  if comandos[1].lower() == "f" and len(comandos) > 3:
+    return print("Comando inválido")
+
+  if comandos[1].lower() == "r" and len(comandos) > 3:
+    return print("Comando inválido")
+    
+  
   elif comandos[1].lower() == ADICIONAR:
     palavra = ""
-    arquivo = open("todo.txt","a")
     comandos.pop(0) 
     comandos.pop(0)
     for n in comandos:
       palavra = palavra + n + " "
-    palavraOrganizada = organizar([palavra])
-    print(palavraOrganizada)
-    
-    arquivo.write(adicionar(palavraOrganizada[0][0],palavraOrganizada[0][1])+"\n")
+    palavraFormatada = organizar([palavra])
+    return adicionar(palavraFormatada[0][0], palavraFormatada[0][1]) #DESCRIÇÃO E EXTRAS
 
-  elif comandos[1].lower() == LISTAR:
+  
+  elif comandos[1].lower() == LISTAR: #LISTAR
     return listar()
+  
     
-  elif comandos[1].lower() == REMOVER: #completo
+  elif comandos[1].lower() == REMOVER: #REMOVER
     comandos.pop(0)
     comandos.pop(0)
     return remover(comandos[0])
 
-  elif comandos[1].lower() == FAZER: #completo
+
+  elif comandos[1].lower() == FAZER: #FAZER
     comandos.pop(0)
     comandos.pop(0)
     return fazer(comandos[0])
 
-  elif comandos[1].lower() == PRIORIZAR: #completo
+
+  elif comandos[1].lower() == PRIORIZAR: #PRIORIZAR
     comandos.pop(0)
     comandos.pop(0)
     return priorizar(comandos[0],comandos[1])
@@ -482,18 +515,21 @@ def processarComandos(comandos):
 ##############################################################################################################################################################################################################
 
 def remover(indice):
-  if type(indice) != str:
-    return print("Meu consagrado você só pode ser jogador de FREE FIRE. Buga meu trabalho ae n po, 4:50 da manhã e to eu aq e tu querendo bugar meu projeto #revolt >:( ")
+  if "1" < indice > "9":
+    return print("Digite apenas numeros")
+  
   lista = []
   listaIndice = []
   cont = 1
-  arquivo = open("todo.txt","r")
+  arquivo = open(TODO_FILE,"r")
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
   lista = ordenarPorPrioridade(lista)
+  
   arquivo.close()
-  arquivo = open("todo.txt","w")
+  
+  arquivo = open(TODO_FILE,"w")
   for n in lista:
     texto1 = n[0][0] #DESCRIÇÃO
     texto2 = n[0][1][0] #DATA
@@ -535,8 +571,12 @@ def remover(indice):
       cont += 1
     else:
       cont += 1
+
   if int(indice) > (len(lista)) or int(indice) < 1:
     return print("O indice desejado não existe")
+
+  arquivo.close()
+  return print("Atividade removida com sucesso!")
    
 
 def inverterData(string):
