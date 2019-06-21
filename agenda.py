@@ -337,6 +337,8 @@ def ordenarPorPrioridade(lista):
 ##############################################################################################################################################################################################################
 
 def fazer(indice):
+  if indice.isnumeric() == False:
+    return print("Apenas numérico no indice!")
   lista = []
   listaIndice = []
   cont = 1
@@ -402,7 +404,6 @@ def fazer(indice):
 
 def priorizar(indice, prioridade):
   lista = []
-  listaIndice = []
   cont = 1
   arquivo = open(TODO_FILE,"r")
   for n in arquivo:
@@ -508,8 +509,12 @@ def processarComandos(comandos):
 
 
   elif comandos[1].lower() == PRIORIZAR: #PRIORIZAR
-    if (prioridadeValida(comandos[3]) == False) or (len(comandos) != 4):
+    if len(comandos) != 4:
+      return print("Comando Inválido")
+      
+    if (prioridadeValida(comandos[3]) == False):
       return print("Comando inválido")
+    
     
     comandos.pop(0)
     comandos.pop(0)
