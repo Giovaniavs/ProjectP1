@@ -474,10 +474,10 @@ def processarComandos(comandos):
   if len(comandos) == 2 and comandos[1].lower() != "l":
     return print("Comando inválido")
   
-  if comandos[1].lower() == "f" and len(comandos) > 3:
+  if comandos[1].lower() == "f" and len(comandos) != 3:
     return print("Comando inválido")
 
-  if comandos[1].lower() == "r" and len(comandos) > 3:
+  if comandos[1].lower() == "r" and len(comandos) != 3:
     return print("Comando inválido")
     
   
@@ -508,6 +508,9 @@ def processarComandos(comandos):
 
 
   elif comandos[1].lower() == PRIORIZAR: #PRIORIZAR
+    if (prioridadeValida(comandos[3]) == False) or (len(comandos) != 4):
+      return print("Comando inválido")
+    
     comandos.pop(0)
     comandos.pop(0)
     return priorizar(comandos[0],comandos[1])
