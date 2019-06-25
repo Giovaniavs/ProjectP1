@@ -25,7 +25,7 @@ def printCores(texto, cor) :
   
 ##############################################################################################################################################################################################################
 
-def adicionar(descricao, extras): #completo
+def adicionar(descricao, extras): 
   lista = [(descricao, extras)]
 
   texto1 = lista[0][0] #DESCRIÇÃO
@@ -80,7 +80,7 @@ def adicionar(descricao, extras): #completo
 ##############################################################################################################################################################################################################
           
 
-def horaValida(horaMin): #completo
+def horaValida(horaMin): 
     if type(horaMin) != str:
       return False
     elif len(horaMin) != 4 or not soDigitos(horaMin):
@@ -97,7 +97,7 @@ def horaValida(horaMin): #completo
   
 ##############################################################################################################################################################################################################
 
-def soDigitos(numero) : #completo
+def soDigitos(numero) : 
   if type(numero) != str :
     return False
   for x in numero :
@@ -107,7 +107,7 @@ def soDigitos(numero) : #completo
 
 ##############################################################################################################################################################################################################
 
-def dataValida(data): #completo (4 6 9 11) < meses de 30 dias
+def dataValida(data): #(4 6 9 11) < meses de 30 dias
     if type(data) != str:
       return False
     elif len(data) != 8:
@@ -138,7 +138,7 @@ def dataValida(data): #completo (4 6 9 11) < meses de 30 dias
 ##############################################################################################################################################################################################################
 
 
-def projetoValido(projeto): #completo
+def projetoValido(projeto): 
     if len(projeto) < 2:
         return False
     else:
@@ -148,7 +148,7 @@ def projetoValido(projeto): #completo
   
 ##############################################################################################################################################################################################################
 
-def contextoValido(projeto): #completo
+def contextoValido(projeto): 
     if len(projeto) < 2:
         return False
     else:
@@ -158,7 +158,7 @@ def contextoValido(projeto): #completo
   
 ##############################################################################################################################################################################################################
 
-def prioridadeValida(prioridade): #completo
+def prioridadeValida(prioridade): 
     if len(prioridade) != 3:
         return False
     else:
@@ -172,7 +172,7 @@ def prioridadeValida(prioridade): #completo
 
 ##############################################################################################################################################################################################################
 
-def organizar(linhas): #completo
+def organizar(linhas): 
   itens = []
 
   for l in linhas:
@@ -211,14 +211,22 @@ def organizar(linhas): #completo
 ##############################################################################################################################################################################################################
 
 
-def listar(): #COMPLETO!!
+def listar(): 
   lista = []
   listaTemp = []
   listaResposta = []
   cont = 1
   dataFormatada = ""
   horaFormatada = ""
-  arquivo = open(TODO_FILE,"r")
+  
+  try: 
+    arquivo = open(TODO_FILE, "r")
+    
+  except IOError as err:
+    print("Não foi possível escrever para o arquivo " + TODO_FILE)
+    print(err)
+    return False
+  
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
@@ -282,7 +290,7 @@ def listar(): #COMPLETO!!
 
 ##############################################################################################################################################################################################################
 
-def ordenarPorDataHora(lista):  #COMPLETÍSSIMO
+def ordenarPorDataHora(lista):  
   listaDoida2 = [] #Lista dos Vazios
   listaDoida1 = [] #Lista dos Numerados
   listaResposta = []
@@ -342,7 +350,15 @@ def fazer(indice):
   lista = []
   listaIndice = []
   cont = 1
-  arquivo = open(TODO_FILE,"r")
+  
+  try: 
+    arquivo = open(TODO_FILE, "r")
+    
+  except IOError as err:
+    print("Não foi possível escrever para o arquivo " + TODO_FILE)
+    print(err)
+    return False
+  
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
@@ -405,7 +421,15 @@ def fazer(indice):
 def priorizar(indice, prioridade):
   lista = []
   cont = 1
-  arquivo = open(TODO_FILE,"r")
+  
+  try: 
+    arquivo = open(TODO_FILE, "r")
+    
+  except IOError as err:
+    print("Não foi possível escrever para o arquivo " + TODO_FILE)
+    print(err)
+    return False
+  
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
@@ -514,8 +538,6 @@ def processarComandos(comandos):
       
     if (prioridadeValida(comandos[3]) == False):
       return print("Comando inválido")
-    
-    
     comandos.pop(0)
     comandos.pop(0)
     return priorizar(comandos[0],comandos[1])
@@ -529,7 +551,15 @@ def remover(indice):
   lista = []
   listaIndice = []
   cont = 1
-  arquivo = open(TODO_FILE,"r")
+  
+  try: 
+    arquivo = open(TODO_FILE, "r")
+    
+  except IOError as err:
+    print("Não foi possível escrever para o arquivo " + TODO_FILE)
+    print(err)
+    return False
+  
   for n in arquivo:
     lista.append(organizar([n]))
   lista = ordenarPorDataHora(lista)
